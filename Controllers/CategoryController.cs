@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Models;
 
 // https://localhost:5001 = porta padrao com o https
 // http://localhost:5000 = porta padrao sem o https
@@ -8,29 +11,39 @@ public class CategoryController : ControllerBase
 {
     [HttpGet]
     [Route("")]
-    public string Get()
+    public async Task<ActionResult<List<Category>>> Get()
     {
-        return "GET";
+        return new List<Category>();
+    }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<ActionResult<Category>> GetById(int id)
+    {
+        return new Category();
     }
 
     [HttpPost]
     [Route("")]
-    public string Post()
+    public async Task<ActionResult<List<Category>>> Post([FromBody] Category model)
     {
-        return "POST";
+        return Ok(model);
     }
 
     [HttpPut]
-    [Route("")]
-    public string Put()
+    [Route("{id:int}")]
+    public async Task<ActionResult<List<Category>>> Put(int id, [FromBody] Category model)
     {
-        return "PUT";
+        if (model.Id == id)
+            return Ok(model);
+
+        return NotFound();
     }
 
     [HttpDelete]
-    [Route("")]
-    public string Delete()
+    [Route("{id:int}")]
+    public async Task<ActionResult<List<Category>>> Delete()
     {
-        return "DELETE";
+        return Ok();
     }
 }
