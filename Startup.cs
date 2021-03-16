@@ -23,7 +23,8 @@ namespace Shop
         {
 
             services.AddControllers();
-            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
+            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
             /*
             Injeção de dependência: o Controller é dependente da conexão com o banco de dados para retornar o que
             o frontend requisitou. Por isso, uma conexão com o banco é aberta para que o Controller busque o que 
