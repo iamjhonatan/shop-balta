@@ -26,6 +26,7 @@ namespace Shop
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             // Comprimindo o JSON antes de mandar pra tela | o HTML descompacta na tela
             services.AddResponseCompression(options =>
             {
@@ -69,6 +70,8 @@ namespace Shop
             Toda vez que a requisição acaba, o 'AddScoped' automaticamente destrói o DataContext, que destrói a conexão com o banco.
             */
             services.AddScoped<DataContext, DataContext>();
+
+            // trabalhando com documentação
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Shop", Version = "v1" });
@@ -87,8 +90,18 @@ namespace Shop
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shop API V1");
+            });
             app.UseRouting();
 
+            // permissões do localhost
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
 
