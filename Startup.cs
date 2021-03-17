@@ -56,8 +56,8 @@ namespace Shop
                 };
             });
 
-            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
-            //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
+            //services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
+            services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
             /*
             Injeção de dependência: o Controller é dependente da conexão com o banco de dados para retornar o que
             o frontend requisitou. Por isso, uma conexão com o banco é aberta para que o Controller busque o que 
@@ -69,7 +69,6 @@ namespace Shop
             vai mandar o mesmo DataContext da memória. Toda vez que um DataContext é criado, ele abre uma conexão com o banco.
             Toda vez que a requisição acaba, o 'AddScoped' automaticamente destrói o DataContext, que destrói a conexão com o banco.
             */
-            services.AddScoped<DataContext, DataContext>();
 
             // trabalhando com documentação
             services.AddSwaggerGen(c =>
