@@ -10,12 +10,14 @@ using Shop.Models;
 // https://localhost:5001 = porta padrao com o https
 // http://localhost:5000 = porta padrao sem o https
 // https://meuapp.azurewebsites.net/ = servidor
-[Route("categories")]
+[Route("v1/categories")]
 public class CategoryController : ControllerBase
 {
     [HttpGet]
     [Route("")]
     [AllowAnonymous]
+    [ResponseCache(VaryByHeader = "User-Agent", Location = ResponseCacheLocation.Any, Duration = 30)]
+    // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)] //(linha para desabilitar o cache quandoa aplicação inteira estiver cacheada no 'Startup.cs')
     public async Task<ActionResult<List<Category>>> Get(
         [FromServices] DataContext context
     )
